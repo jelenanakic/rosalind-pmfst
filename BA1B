@@ -1,0 +1,23 @@
+def kmer(text,i,k):
+  return text[i:(i+k)]
+
+def kmersFrequency(text,k):
+  D=dict()
+  for i in range(0,len(text)-k+1):
+    tmp=kmer(text,i,k)
+    try:
+      D[tmp]=D[tmp]+1
+    except KeyError:
+      D[tmp]=1
+  return D
+
+def mostFrequentKmers(text,k):
+  D=kmersFrequency(text,k)
+  maxcount=max(D.values())
+  return dict.fromkeys([x[0] for x in D.items() if x[1]==maxcount],maxcount)
+
+print("Text:");
+text=input();
+print("k:");
+k=int(input());
+print(mostFrequentKmers(text,k));
