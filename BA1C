@@ -1,0 +1,15 @@
+def ReverseComplement(text):
+  complement="";
+  for i in range(0,len(text)):
+    if (text[i]=="A"):
+      complement=complement+text[i].replace("A","T")
+    if (text[i]=="T"):
+      complement=complement+text[i].replace("T","A")
+    if (text[i]=="C"):
+      complement=complement+text[i].replace("C","G")
+    if(text[i]=="G"):
+      complement=complement+text[i].replace("G","C")  
+  return complement[::-1]
+print("Text:");
+text=input();
+print(ReverseComplement(text));
