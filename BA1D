@@ -1,0 +1,18 @@
+def kmer(text,i,k):
+  return text[i:(i+k)];
+
+def PatternMatching(Pattern,text):
+  lista=[]
+  for i in range(0,len(text)-len(Pattern)+1):
+    if(kmer(text,i,len(Pattern))==Pattern):
+      lista.append(i)
+  return lista;
+
+
+print("Pattern:");
+Pattern=input();
+print("Text:");
+text=input();
+lista=PatternMatching(Pattern,text);
+for i in range(len(lista)):
+  print(lista[i],end=" ")
