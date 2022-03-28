@@ -1,0 +1,7 @@
+def StringSpelled(patterns):
+  text=patterns[0]
+  for i in range(1,len(patterns)):
+    text=text+(patterns[i])[-1]
+  return text
+
+print(StringSpelled(input().split(" ")))
