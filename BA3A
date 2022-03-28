@@ -1,0 +1,13 @@
+def StringComposition(text,k):
+  lista=list()
+  for i in range(0,len(text)-k+1):
+    lista.append(text[i:(i+k)])
+  return sorted(lista)
+
+print("Text:");
+text=input();
+print("k:");
+k=int(input());
+lista=StringComposition(text,k);
+for i in lista:
+  print(i)
