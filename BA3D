@@ -1,0 +1,23 @@
+def DeBruijnGraph(text,k):
+  d=dict()
+  for i in range(0,len(text)-k+1):
+    tmp=text[i:(i+k-1)]
+    try:
+      d[tmp].append(text[(i+1):(i+k)])
+    except KeyError:
+      d[tmp]=[text[(i+1):(i+k)]]
+  return d
+
+print("Text");
+text=input();
+print("k:");
+k=int(input());
+d=DeBruijnGraph(text,k)
+for k,v in d.items():
+  m=""
+  for i in range(0,len(v)):
+    if(i!=len(v)-1):
+      m=m+v[i]+","
+    else:
+      m=m+v[i]
+  print(k+" -> " + m)
