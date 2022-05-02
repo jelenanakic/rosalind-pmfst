@@ -1,0 +1,14 @@
+def HammingDistance(p,q):
+  if(len(p)!=len(q)):
+    return -1;
+  distance=0;
+  for i in range(0,len(p)):
+    if(p[i]!=q[i]):
+      distance+=1;
+  return distance;
+
+print("p:");
+p=input();
+print("q:");
+q=input();
+print(HammingDistance(p,q));
