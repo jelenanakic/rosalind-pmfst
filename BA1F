@@ -1,0 +1,22 @@
+def MinimumSkewProblem(genome):
+  lista=list();
+  nova_lista=list();
+  skew=0;
+  minimum=0;
+  for i in range(0,len(genome)-1):
+    if(genome[i]=="G"):
+      skew+=1;
+    if(genome[i]=="C"):
+      skew-=1;
+    lista.append(skew);
+  for i in range(0, len(lista)-1):
+    if(lista[i]<minimum):
+      minimum=lista[i];
+  for i in range(0, len(lista)-1):
+    if(lista[i]==minimum):
+      nova_lista.append(i+1);
+  return nova_lista;
+
+lista=MinimumSkewProblem(input());
+for element in lista:
+  print(element,end=" ");  
