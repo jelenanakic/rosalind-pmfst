@@ -3,16 +3,16 @@ def MinimumSkewProblem(genome):
   nova_lista=list();
   skew=0;
   minimum=0;
-  for i in range(0,len(genome)-1):
+  for i in range(0,len(genome)):
     if(genome[i]=="G"):
       skew+=1;
     if(genome[i]=="C"):
       skew-=1;
     lista.append(skew);
-  for i in range(0, len(lista)-1):
+  for i in range(0, len(lista)):
     if(lista[i]<minimum):
       minimum=lista[i];
-  for i in range(0, len(lista)-1):
+  for i in range(0, len(lista)):
     if(lista[i]==minimum):
       nova_lista.append(i+1);
   return nova_lista;
