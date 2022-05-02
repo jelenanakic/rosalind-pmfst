@@ -1,0 +1,29 @@
+def kmer(Text,i,k):
+  return Text[i:(i+k)];
+
+def HammingDistance(p,q):
+  if(len(p)!=len(q)):
+    return -1;
+  distance=0;
+  for i in range(0,len(p)):
+    if(p[i]!=q[i]):
+      distance+=1;
+  return distance;
+
+def ApproximatePatternMatchingProblem(Pattern,Text,d):
+  lista=list();
+  for i in range(0, len(Text)-len(Pattern)+1):
+    if(HammingDistance(Pattern,kmer(Text,i,len(Pattern)))<=d):
+      lista.append(i);
+  return lista;
+  
+
+print("Pattern:");
+Pattern=input();
+print("Text:");
+Text=input();
+print("d:");
+d=int(input());
+lista=ApproximatePatternMatchingProblem(Pattern,Text,d);
+for element in lista:
+  print(element,end=" ");
