@@ -1,0 +1,69 @@
+import itertools
+
+def DefinirajNiz(k):
+  niz1=["A","C","G","T"];
+  lista=list();
+  comb=[p for p in itertools.product(niz1, repeat=k)]
+  for el in comb:
+    rijec="";
+    for i in range(0,len(el)):
+      rijec+=el[i];
+    lista.append(rijec);
+  return lista;
+
+def kmer(Text,i,k):
+  return Text[i:(i+k)];
+
+def HammingDistance(p,q):
+  if(len(p)!=len(q)):
+    return -1;
+  distance=0;
+  for i in range(0,len(p)):
+    if(p[i]!=q[i]):
+      distance+=1;
+  return distance;
+
+def ReverseComplement(text):
+  complement="";
+  for i in range(0,len(text)):
+    if (text[i]=="A"):
+      complement=complement+text[i].replace("A","T")
+    if (text[i]=="T"):
+      complement=complement+text[i].replace("T","A")
+    if (text[i]=="C"):
+      complement=complement+text[i].replace("C","G")
+    if(text[i]=="G"):
+      complement=complement+text[i].replace("G","C")  
+  return complement[::-1];
+
+def FrequentWordsWithMismatches(Text,k,d):
+  D=dict();
+  lista=list();
+  max=0;
+  for i in range(0,4**k):
+    Pattern1=(DefinirajNiz(k))[i];
+    count1=0;
+    count2=0;
+    for j in range(0, len(Text)-k+1):
+      Pattern=kmer(Text,j,k);
+      Pattern_=ReverseComplement(Pattern);      
+      if(HammingDistance(Pattern,Pattern1)<=d):
+        count1+=1;
+      if(HammingDistance(Pattern_,Pattern1)<=d):
+        count2+=1;
+    D[Pattern1]=count1+count2;
+  for v in D.values():
+    if(v>max):
+      max=v;
+  [lista.append(key) for key,value in D.items() if (value==max and key not in lista)]
+  return lista;
+
+print("Text:");
+Text=input();
+print("k:");
+k=int(input());
+print("d:");
+d=int(input());
+lista=FrequentWordsWithMismatches(Text,k,d);
+for el in lista:
+  print(el,end=" ");
