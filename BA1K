@@ -1,0 +1,35 @@
+import itertools
+def DefinirajNiz(k):
+  niz1=["A","C","G","T"];
+  lista=list();
+  comb=[p for p in itertools.product(niz1, repeat=k)]
+  for el in comb:
+    rijec="";
+    for i in range(0,len(el)):
+      rijec+=el[i];
+    lista.append(rijec);
+  return lista;
+
+def PatternToNumber(Pattern):
+  niz=DefinirajNiz(len(Pattern));
+  for i in range(0,len(niz)):
+    if Pattern==niz[i]:
+      return i;
+
+def ComputingFrequencies(Text,k):
+  FrequencyArray=[];
+  for i in range(0,4**k):
+    FrequencyArray.append(0);
+  for i in range(0,len(Text)-k+1):
+    Pattern=Text[i:(i+k)];
+    j=PatternToNumber(Pattern);
+    FrequencyArray[j]=FrequencyArray[j]+1;
+  return FrequencyArray;
+
+print("Text:");
+Text=input();
+print("k:");
+k=int(input());
+niz=ComputingFrequencies(Text,k);
+for el in niz:
+  print(el,end=" ");
