@@ -1,0 +1,36 @@
+def Suffix(Pattern):
+  return Pattern[1:len(Pattern)];
+
+def HammingDistance(p,q):
+  if(len(p)!=len(q)):
+    return -1;
+  distance=0;
+  for i in range(0,len(p)):
+    if(p[i]!=q[i]):
+      distance+=1;
+  return distance;
+
+nucleotides=["A","C","G","T"];
+
+def Neighbors(Pattern, d):
+  if d == 0:
+    return {Pattern};
+  if len(Pattern)== 1:
+    return {"A", "C", "G", "T"};
+  Neighborhood=set();
+  SuffixNeighbors=Neighbors(Suffix(Pattern),d);
+  for Text in SuffixNeighbors:
+    if(HammingDistance(Suffix(Pattern),Text)<d):
+      for i in range(0,4):
+        Neighborhood.add(nucleotides[i]+Text);
+    else:
+      Neighborhood.add(Pattern[0]+Text);
+  return Neighborhood;
+
+print("Pattern:");
+Pattern=input();
+print("d:");
+d=int(input());
+Neighborhood=Neighbors(Pattern,d);
+for element in Neighborhood:
+  print(element);
