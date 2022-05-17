@@ -1,0 +1,57 @@
+def kmer(text,i,k):
+  return text[i:(i+k)];
+
+def HammingDistance(p,q):
+  if(len(p)!=len(q)):
+    return -1;
+  distance=0;
+  for i in range(0,len(p)):
+    if(p[i]!=q[i]):
+      distance+=1;
+  return distance;
+
+import itertools
+
+def DefinirajNiz(k):
+  niz=["A","C","G","T"];
+  lista=list();
+  comb=[p for p in itertools.product(niz,repeat=k)]
+  for element in comb:
+    rijec="";
+    for i in range(0,len(element)):
+      rijec+=element[i];
+    lista.append(rijec);
+  return lista;
+
+def d(Pattern,Text):
+  min=len(Text);
+  for i in range(0,len(Text)-len(Pattern)+1):
+    Pattern1=kmer(Text,i,len(Pattern));
+    d=HammingDistance(Pattern,Pattern1);
+    if(d<min):
+      min=d;
+  return min;
+
+def D(Pattern,Dna):
+  suma=0;
+  for i in range(0,len(Dna)):
+    suma+=d(Pattern,Dna[i]);
+  return suma;
+
+def MedianString(Dna,k):
+  min=k;
+  niz=DefinirajNiz(k);
+  for i in range(0,len(niz)):
+    d=D(niz[i],Dna);
+    if(d<min):
+      min=d;
+  for i in range(0,len(niz)):
+    if(min==D(niz[i],Dna)):
+      return niz[i];
+    
+
+print("k:");
+k=int(input());
+print("Dna:");
+Dna=input().split(" ");
+print(MedianString(Dna,k));
