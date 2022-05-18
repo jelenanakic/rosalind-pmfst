@@ -1,0 +1,48 @@
+def kmer(text,i,k):
+  return text[i:(i+k)];
+
+import itertools
+
+def DefinirajNiz(k):
+  niz=["A","C","G","T"];
+  lista=list();
+  comb=[p for p in itertools.product(niz,repeat=k)];
+  for element in comb:
+    rijec="";
+    for i in range(0,len(element)):
+      rijec+=element[i];
+    lista.append(rijec);
+  return lista;
+
+def Pr(kmer,Profile):
+  product=1;
+  for i in range(0,len(kmer)):
+    if(kmer[i]=="A"):
+      product*=Profile[0][i];
+    if(kmer[i]=="C"):
+      product*=Profile[1][i];
+    if(kmer[i]=="G"):
+      product*=Profile[2][i];
+    if(kmer[i]=="T"):
+      product*=Profile[3][i];
+  return product;
+
+def ProfileMostProbableKmer(Text,k,Profile):
+  D=dict();
+  for i in range(0,len(Text)-k+1):
+    a=kmer(Text,i,k);
+    product=Pr(a,Profile);
+    D[a]=product;
+  max=0;
+  for v in D.values():
+    if(v>max):
+      max=v;
+  niz=[k for k,v in D.items() if v==max];
+  return niz[0];
+
+with open("/content/sample_data/rosalind_ba2c(1).txt","r") as f:
+  Text=f.readline().strip()
+  k=int(f.readline().strip())
+  Profile=[[float(l) for l in line.strip().split()]for line in f]
+
+print(ProfileMostProbableKmer(Text,k,Profile))
