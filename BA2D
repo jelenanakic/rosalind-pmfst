@@ -1,0 +1,127 @@
+def kmer(text,i,k):
+  return text[i:(i+k)];
+
+
+def HammingDistance(p,q):
+  if(len(p)!=len(q)):
+    return -1;
+  distance=0;
+  for i in range(0,len(p)):
+    if(p[i]!=q[i]):
+      distance+=1;
+  return distance;
+
+def d(Pattern,Text):
+  min=len(Text);
+  for i in range(0,len(Text)-len(Pattern)+1):
+    Pattern1=kmer(Text,i,len(Pattern));
+    d=HammingDistance(Pattern,Pattern1);
+    if(d<min):
+      min=d;
+  return min;
+
+def D(Pattern,Dna):
+  suma=0;
+  for i in range(0,len(Dna)):
+    suma+=d(Pattern,Dna[i]);
+  return suma;
+
+
+
+import numpy as np
+
+def Profile(Motifs,k):
+  profile=np.zeros((4,k));
+  for i in range(0,k):
+    a=0;
+    c=0;
+    g=0;
+    t=0;
+    for j in range(0,len(Motifs)):
+      if((Motifs[j])[i]=="A"):
+        a+=1;
+      if((Motifs[j])[i]=="C"):
+        c+=1;
+      if((Motifs[j])[i]=="G"):
+        g+=1;
+      if((Motifs[j])[i]=="T"):
+        t+=1;
+    niz=[a,c,g,t];
+    for k in range(0,4):
+      profile[k][i]=niz[k]/4;
+  return profile;
+
+def Pr(kmer,profile):
+  product=1;
+  for i in range(0,len(kmer)):
+    if(kmer[i]=="A"):
+      product*=profile[0][i];
+    if(kmer[i]=="C"):
+      product*=profile[1][i];
+    if(kmer[i]=="G"):
+      product*=profile[2][i];
+    if(kmer[i]=="T"):
+      product*=profile[3][i];
+  return product;
+
+def ProfileMostProbableKmer(Text,k,profile):
+  D=dict();
+  for i in range(0,len(Text)-k+1):
+    a=kmer(Text,i,k);
+    product=Pr(a,profile);
+    D[a]=product;
+  max=0;
+  for v in D.values():
+    if(v>max):
+      max=v;
+  niz=[k for k,v in D.items() if v==max];
+  return niz[0];
+
+def Consensus(Motifs,k):
+  niz=[];
+  niz1=["A","C","G","T"];
+  P=Profile(Motifs,k);
+  for i in range(0,k):
+    max=0;
+    D=dict();
+    for j in range(0,4):
+      D[niz1[j]]=P[j][i];
+      if P[j][i]>max:
+        max=P[j][i];
+    cons=[k for k,v in D.items() if (v==max)];
+    niz.append(cons[0]);
+  return niz;
+
+def Score(Motifs,k):
+  return D(Consensus(Motifs,k),Motifs);
+
+def GreedyMotifSearch(Dna,k,t):
+  BestMotifs=[];
+  for i in range(0,len(Dna)):
+    BestMotifs.append(kmer(Dna[i],0,k));
+  for i in range(0,len(Dna[0])-k+1):
+    Motifs=[];
+    Motif=kmer(Dna[0],i,k);
+    Motif1=Motif;
+    Motifs.append(Motif1);
+    Profil=Profile([Motif1,Motif1],k);
+    Motifj=ProfileMostProbableKmer(Dna[1],k,Profil);
+    Motifs.append(Motifj);
+    for j in range(2,t):    
+      Profil=Profile(Motifs,k);
+      Motifj=ProfileMostProbableKmer(Dna[j],k,Profil);
+      Motifs.append(Motifj);
+    if(Score(Motifs,k)<Score(BestMotifs,k)):
+      BestMotifs=Motifs;
+  return BestMotifs;
+
+
+print("k:");
+k=int(input());
+print("t:");
+t=int(input());
+print("Dna:");
+Dna=input().split(" ");
+niz=GreedyMotifSearch(Dna,k,t);
+for element in niz:
+  print(element);
