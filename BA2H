@@ -1,0 +1,33 @@
+def kmer(text,i,k):
+  return text[i:(i+k)];
+
+def HammingDistance(p,q):
+  if(len(p)!=len(q)):
+    return -1;
+  distance=0;
+  for i in range(0,len(p)):
+    if(p[i]!=q[i]):
+      distance+=1;
+  return distance;
+
+import math
+
+def DistanceBetweenPatternAndStrings(Pattern,Dna):
+  k=len(Pattern);
+  distance=0;
+  for i in range(0,len(Dna)):
+    Text=Dna[i];
+    hammingDistance=math.inf;
+    for j in range(0,len(Text)-k+1):
+      Pattern1=kmer(Text,j,k);
+      if(hammingDistance>HammingDistance(Pattern,Pattern1)):
+        hammingDistance=HammingDistance(Pattern,Pattern1);
+    distance+=hammingDistance;
+  return distance;
+
+print("Pattern:");
+Pattern=input();
+print("Dna:");
+Dna=input().split(" ");
+distance=DistanceBetweenPatternAndStrings(Pattern,Dna);
+print(distance);
