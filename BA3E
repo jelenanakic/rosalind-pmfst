@@ -1,0 +1,26 @@
+def Prefix(Pattern):
+  return Pattern[:-1]
+
+def Suffix(Pattern):
+  return Pattern[1:];
+
+def DeBruijnGraph(Patterns):
+  D=dict();
+  for i in range(0,len(Patterns)):
+    try:
+      D[Prefix(Patterns[i])].append(Suffix(Patterns[i]))
+    except KeyError:
+      D[Prefix(Patterns[i])]=[Suffix(Patterns[i])];
+  return D;
+
+print("Patterns:");
+Patterns=input().split(" ");
+D=DeBruijnGraph(Patterns);
+for k,v in D.items():
+  values="";
+  for i in range(0,len(v)):
+    if(i!=len(v)-1):
+      values+=v[i]+",";
+    else:
+      values+=v[i];
+  print(k + " -> " +values)
