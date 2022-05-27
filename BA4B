@@ -1,0 +1,57 @@
+GeneticCode=[["AAA","K"],["AAC","N"],["AAG","K"],["AAU","N"],["ACA","T"],["ACC","T"],["ACG","T"],["ACU","T"],
+             ["AGA","R"],["AGC","S"],["AGG","R"],["AGU","S"],["AUA","I"],["AUC","I"],["AUG","M"],["AUU","I"],
+             ["CAA","Q"],["CAC","H"],["CAG","Q"],["CAU","H"],["CCA","P"],["CCC","P"],["CCG","P"],["CCU","P"],
+             ["CGA","R"],["CGC","R"],["CGG","R"],["CGU","R"],["CUA","L"],["CUC","L"],["CUG","L"],["CUU","L"],
+             ["GAA","E"],["GAC","D"],["GAG","E"],["GAU","D"],["GCA","A"],["GCC","A"],["GCG","A"],["GCU","A"],
+             ["GGA","G"],["GGC","G"],["GGG","G"],["GGU","G"],["GUA","V"],["GUC","V"],["GUG","V"],["GUU","V"],
+             ["UAA","*"],["UAC","Y"],["UAG","*"],["UAU","Y"],["UCA","S"],["UCC","S"],["UCG","S"],["UCU","S"],
+             ["UGA","*"],["UGC","C"],["UGG","W"],["UGU","C"],["UUA","L"],["UUC","F"],["UUG","L"],["UUU","F"]];
+
+def TranslationIntoAminoAcid(Pattern,GeneticCode):
+  Peptide="";
+  for i in range(0,int(len(Pattern)/3)):
+    for j in range(0,64):
+      if(Pattern[(i*3):(i*3+3)]==(GeneticCode[j])[0]):
+        Peptide+=(GeneticCode[j])[1];
+  return Peptide;
+
+def ReverseComplement(text):
+  complement="";
+  for i in range(0,len(text)):
+    if (text[i]=="A"):
+      complement+="U";
+    if(text[i]=="U"):
+      complement+="A";
+    if (text[i]=="C"):
+      complement+="G";
+    if(text[i]=="G"):
+      complement+="C" 
+    if(text[i] not in {"A","C","G","U"}):
+      complement+=text[i]
+  return complement[::-1]
+
+def ZamjenaUiT(Text):
+  Text1="";
+  for i in range(0,len(Text)):
+    if(Text[i]=="T"):
+      Text1+="U";
+    else:
+      Text1+=Text[i]
+  return Text1;
+
+def PeptideEncoding(Text,Peptide):
+  lista=list();
+  text=ZamjenaUiT(Text);
+  for i in range(0,len(Text)-len(Peptide)*3+1):
+    if(TranslationIntoAminoAcid(text[i:(i+len(Peptide)*3)],GeneticCode)==Peptide or
+        TranslationIntoAminoAcid(ReverseComplement(text[i:(i+len(Peptide)*3)]),GeneticCode)==Peptide):
+      lista.append(Text[i:(i+len(Peptide)*3)]);
+  return lista;
+
+print("Text:");
+Text=input();
+print("Peptide:");
+Peptide=input();
+lista=PeptideEncoding(Text,Peptide);
+for element in lista:
+  print(element);
