@@ -1,0 +1,29 @@
+masses=[["G",57],["A",71],["S",87],["P",97],["V",99],["T",101],["C",103],["I",113],["L",113],
+        ["N",114],["D",115],["K",128],["Q",128],["E",129],["M",131],["H",137],["F",147],["R",156],
+        ["Y",163],["W",186]];
+
+def mass(Peptide):
+  mass=0;
+  for i in range(0,len(Peptide)):
+    for j in range(0,len(masses)):
+      if(Peptide[i]==(masses[j])[0]):
+        mass+=(masses[j])[1];
+  return mass;
+
+def Cyclospectrum(Peptide):
+  niz=[0];
+  niz1=[];
+  concat=Peptide+Peptide;
+  for i in range(1,len(Peptide)+1):
+    for j in range(0,len(Peptide)):
+      niz1.append(concat[j:(j+i)]);
+  for k in range(0,len(niz1)-len(Peptide)+1):
+    masa=mass(niz1[k]);
+    niz.append(masa);
+  return sorted(niz);
+
+print("Peptide:");
+Peptide=input();
+niz=Cyclospectrum(Peptide)
+for element in niz:
+  print(element,end=" ");
