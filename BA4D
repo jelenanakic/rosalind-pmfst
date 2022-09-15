@@ -1,0 +1,30 @@
+slova=["G","A","S","P","V","T","C","I","L","N","D","K","Q","E","M","H","F","R","Y","W"];
+
+masses=[["G",57],["A",71],["S",87],["P",97],["V",99],["T",101],["C",103],["I",113],["L",113],
+        ["N",114],["D",115],["K",128],["Q",128],["E",129],["M",131],["H",137],["F",147],["R",156],
+        ["Y",163],["W",186]];
+
+def mass(Peptide):
+  mass=0;
+  for i in range(0,len(Peptide)):
+    for j in range(0,len(masses)):
+      if(Peptide[i]==(masses[j])[0]):
+        mass+=(masses[j])[1];
+  return mass;
+
+import itertools
+niz=[];
+for i in range(0,len(slova)):
+  for rijec in itertools.product(slova,repeat=i+1):
+    niz.append(''.join(rijec));
+
+def CountingPeptides(m):
+  number=0;
+  for i in range(0,len(niz)):
+    if(mass(niz[i])==m):
+      number+=1;
+  return number;
+
+print("m:");
+m=int(input());
+print(CountingPeptides(m));
