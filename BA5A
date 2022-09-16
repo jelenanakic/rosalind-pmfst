@@ -1,0 +1,19 @@
+import math
+def DPChange(money, Coins):
+    minNumCoins = (money + 1) * [0]
+    for m in range(1, money + 1):
+        minNumCoins[m] = math.inf;
+        for coin in Coins:
+            if m >= coin:
+                if minNumCoins[m - coin] + 1 < minNumCoins[m]:
+                    minNumCoins[m] = minNumCoins[m - coin] + 1
+    return minNumCoins[money]
+
+
+print("money:");
+money=int(input());
+print("Coins:");
+Coins=input().split(",");
+for i in range(0,len(Coins)):
+  Coins[i]=int(Coins[i]);
+print(DPChange(money,Coins));
