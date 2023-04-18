@@ -1,15 +1,18 @@
-def ReverseComplement(text):
-  complement="";
-  for i in range(0,len(text)):
-    if (text[i]=="A"):
-      complement=complement+text[i].replace("A","T")
-    if (text[i]=="T"):
-      complement=complement+text[i].replace("T","A")
-    if (text[i]=="C"):
-      complement=complement+text[i].replace("C","G")
-    if(text[i]=="G"):
-      complement=complement+text[i].replace("G","C")  
-  return complement[::-1]
-print("Text:");
-text=input();
-print(ReverseComplement(text));
+def reverseComplement(Pattern):
+    complement="";
+    for i in range(0,len(Pattern)):
+        if(Pattern[i]=="A"):
+            complement+=Pattern[i].replace("A","T");
+        if(Pattern[i]=="T"):
+            complement+=Pattern[i].replace("T","A");
+        if(Pattern[i]=="C"):
+            complement+=Pattern[i].replace("C","G");
+        if(Pattern[i]=="G"):
+            complement+=Pattern[i].replace("G","C");
+        if(Pattern[i] not in ["A","C","G","T"]):
+            complement+=Pattern[i];
+    return complement[::-1];
+
+print("Pattern:");
+Pattern=input();
+print(reverseComplement(Pattern));
