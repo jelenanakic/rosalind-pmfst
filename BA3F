@@ -1,0 +1,35 @@
+#BA3F
+def rosalindInputToGraph(text):
+  D={}
+  for line in text:
+    key,values=line.split(" -> ");
+    values=values.split(",");
+    D[key]=values;
+  return D;
+
+def eulerianCycle(graph):
+  cycle=[list(graph.keys())[0]]
+  while(len(graph)>0):
+    if cycle[0]==cycle[-1]:
+      while not cycle[0] in graph:
+        cycle.pop(0)
+        cycle.append(cycle[0])
+    start=cycle[-1]
+    cycle.append(graph[start].pop())
+    if len(graph[start])==0:
+      del graph[start];
+  return cycle;
+
+def Output(res):
+  out="->".join(res)
+  print(out);
+
+with open("rosalind_ba3f.txt") as file:
+    lines = file.readlines()
+
+for i in range (0,len(lines)):
+     lines[i] = lines[i].strip('\n')
+
+graph = rosalindInputToGraph(lines)
+res = eulerianCycle(graph)
+Output(res)
