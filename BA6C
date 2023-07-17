@@ -1,0 +1,67 @@
+def ChromosomeToCycle(chromosome):
+  nodes=[]
+  for j in range(0,len(chromosome)):
+    i=chromosome[j]
+    if i>0:
+      nodes.append(2*i-1)
+      nodes.append(2*i)
+    else:
+      nodes.append(-2*i)
+      nodes.append(-2*i-1)
+  return nodes
+
+def ColoredEdges(P):
+  edges=[]
+  for chromosome in P:
+    nodes=ChromosomeToCycle(chromosome)
+    for j in range(len(chromosome)):
+      edges.append((nodes[(2 * j + 1) % len(nodes)],
+                          nodes[(2 * j + 2) % len(nodes)]))
+  return edges
+
+def Cycles(P,Q):
+  colored_P=ColoredEdges(P)
+  colored_Q=ColoredEdges(Q)
+  colored_edges=colored_P+colored_Q
+
+  counter=0
+
+  while len(colored_edges)>0:
+    first=colored_edges[0][0]
+    second=colored_edges[0][1]
+    colored_edges.remove(colored_edges[0])
+
+    while second!=first:
+      for edge in colored_edges:
+        if edge[0]==second:
+          second=edge[1]
+          colored_edges.remove(edge)
+          break
+        if edge[1]==second:
+          second=edge[0]
+          colored_edges.remove(edge)
+          break
+    counter+=1
+  return counter
+
+def Blocks(P):
+  elementNumber=sum([len(chromosome) for chromosome in P])
+  return elementNumber
+
+def TwoBreakDistance(P,Q):
+  return Blocks(P)-Cycles(P,Q)
+
+with open("/rosalind_ba6c.txt") as file:
+  lines=file.readlines()
+
+for i in range(len(lines)):
+  lines[i]=lines[i][1:-2]
+  lines[i]=lines[i].split(')(')
+  for j in range(0,len(lines[i])):
+    lines[i][j]=lines[i][j].split(' ')
+    lines[i][j]=[int(x) for x in lines[i][j]]
+
+P=lines[0]
+Q=lines[1]
+
+TwoBreakDistance(P,Q)
